@@ -1,0 +1,167 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Montserrat";
+}
+
+body {
+  background-color: #000;
+  overflow-x: hidden;
+}
+
+input{
+        background: transparent;
+        border: none;
+        outline: none;
+}
+.user-info {
+  margin: 10px;
+}
+
+#showUserIP {
+  font-family: Montserrat;
+  font-size: 34px;
+  font-weight: 700;
+  line-height: 41px;
+  letter-spacing: 0em;
+  text-align: left;
+
+  color: #b8bccc80;
+}
+
+.user-other-info,
+.item {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+}
+
+.item label {
+  font-family: Inter;
+  font-size: 34px;
+  font-weight: 700;
+  line-height: 41px;
+  letter-spacing: 0em;
+  text-align: left;
+}
+
+.data label {
+  color: #b8bccc80;
+}
+
+.map-section {
+  display: block;
+  flex-wrap: wrap;
+  text-align: center;
+  align-items: center;
+  margin: 20px 0px;
+  background-color: #575a85;
+  padding: 10px;
+  width: 100vw;
+  height: 100vh;
+}
+
+.map-section h1 {
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 44px;
+  letter-spacing: 0em;
+  color: #b8bccc;
+}
+
+.more-info-about-you,
+.show-data-section {
+  margin: 20px 10px;
+}
+
+.more-info-about-you h1 {
+  font-family: Montserrat;
+  font-size: 48px;
+  font-weight: 700;
+  line-height: 59px;
+  letter-spacing: 0em;
+  text-align: center;
+  color: #b8bccc;
+}
+
+.about-data {
+  display: flex;
+  align-items: start;
+  margin: 10px;
+  justify-content: space-between;
+}
+
+.about-data,
+.about-data input {
+  font-family: Inter;
+  font-size: 34px;
+  font-weight: 700;
+  line-height: 41px;
+  letter-spacing: 0em;
+  text-align: left;
+  color: #b8bccc80;
+}
+
+.show-data-section {
+  align-items: center;
+  text-align: center;
+}
+
+.show-data-section h1 {
+  font-family: Montserrat;
+  font-size: 48px;
+  font-weight: 700;
+  line-height: 59px;
+  letter-spacing: 0em;
+  text-align: center;
+  color: #b8bccc;
+  margin: 10px;
+}
+
+.search {
+  width: 100%;
+  display: flex;
+  text-align: center;
+  align-items: center;
+  border: 2px solid #575a85;
+  border-radius: 10px;
+  justify-content: space-between;
+}
+
+.search span {
+  width: 30px;
+  height: 30px;
+  color: #b8bccc;
+  margin-left: 10px;
+  margin-top: 5px;
+}
+.search-input {
+  width: 98%;
+  color: #575a85;
+  padding-inline: 10px;
+  height: 40px;
+  outline: none;
+  background: transparent;
+  border: none;
+}
+
+.contents {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.content {
+  background-color: #575a85;
+  color: #b8bccc;
+  padding: 10px;
+  border-radius: 5px;
+  margin: 10px;
+}
+
+.content-data {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  text-align: center;
+}

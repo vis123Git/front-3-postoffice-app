@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Post office App</title>
+    <link rel="stylesheet" href="style.css" />
+    <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet" />
+  </head>
+  <body>
+    <div class="main-page">
+      <div class="left-section">
+        <h1>Post Office Application</h1>
+        <p>This Application Allows you to extract information about the nearest Post Offices, based on your location.</p>
+        <img src="assets/img-postman.svg" alt="" />
+      </div>
+      <div class="right-section">
+        <div class="ip-box">
+          <h1>Your Current IP Address is <span id="userIP" style="color: white">127.0.01</span></h1>
+          <button id="getIPButton" onclick="getUserLocationInfo()">Get Started</button>
+        </div>
+      </div>
+    </div>
+
+    <script src="getIP.js"></script>
+  </body>
+</html>
