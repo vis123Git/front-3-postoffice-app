@@ -116,7 +116,73 @@
       </div>
     </div>
 
-    <script src="getIP.js"></script>
+    <script>
+      let userLocation = {};
 
+      const getUserLocationInfo = async () => {
+        try {
+          var url = "https://api.ipify.org?format=json";
+          const response = await fetch(url);
+          const data = await response.json();
+          console.log("user ip info: ", data);
+
+          if (data.ip) {
+            const userData = await fetch(`https://ipapi.co/${data.ip}/json/`);
+            const userInfo = await userData.json();
+
+            const userTimezone  = new Date().toLocaleString("en-US", { timeZone: userInfo.timezone });
+
+            console.log("userTimezone===", userTimezone);
+
+            if (userInfo.latitude && userInfo.longitude) {
+              userLocation = userInfo;
+              console.log("user location info: ", userInfo);
+
+              const mapLocation = document.querySelector("iframe"); // Get the first iframe
+              const mapSrc = `https://maps.google.com/maps?q=${userInfo.latitude},${userInfo.longitude}&&output=embed`;
+              mapLocation.src = mapSrc;
+
+              // Update latitude and longitude inputs
+              const latInput = document.getElementById("lat");
+              const longInput = document.getElementById("long");
+              const city = document.getElementById("city");
+              const region = document.getElementById("region");
+              const timezone = document.getElementById("timezone");
+              const dateAndTime = document.getElementById("dateAndTime");
+              const pincode = document.getElementById("pincode");
+              const message = document.getElementById("message");
+
+              
+
+              const organisation = document.getElementById("organisation");
+              const hostname = document.getElementById("hostname");
+
+              latInput.value = userInfo.latitude;
+              longInput.value = userInfo.longitude;
+              city.value = userInfo.city;
+              region.value = userInfo.region;
+              organisation.value = userInfo.org;
+              timezone.value = userInfo.timezone;
+              dateAndTime.value = userTimezone;
+              pincode.value = userInfo.postal;
+              message.value = userInfo.message;
+
+
+
+              const showUserIP = document.getElementById("showUserIP");
+              console.log("showUserIP===", showUserIP);
+              showUserIP.innerText = "IP Address: " + data.ip;
+            } else {
+              console.log("Missing location information");
+            }
+          }
+        } catch (error) {
+          console.log("Error fetching IP address", error);
+        }
+      };
+
+      // Call the function to get user location information
+      getUserLocationInfo();
+    </script>
   </body>
 </html>
