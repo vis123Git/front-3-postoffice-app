@@ -1,4 +1,9 @@
 let userLocation = {};
+const getIPButton = document.getElementById("getIPButton");
+
+getIPButton.addEventListener("click", ()=>{
+  getIPButton.innerText = "Processing..."
+})
 
 const getUserLocationInfo = async () => {
   try {

@@ -88,7 +88,7 @@
       </div>
 
       <div class="contents">
-        <div class="content">
+        <!-- <div class="content">
           <div class="content-data">
             <label for="name">Name : </label>
             <input type="text" name="name" id="name" />
@@ -112,7 +112,7 @@
             <label for="division">Division : </label>
             <input type="text" name="division" id="division" />
           </div>
-        </div>
+        </div> -->
       </div>
     </div>
 
@@ -124,23 +124,101 @@
           var url = "https://api.ipify.org?format=json";
           const response = await fetch(url);
           const data = await response.json();
-          console.log("user ip info: ", data);
 
           if (data.ip) {
             const userData = await fetch(`https://ipapi.co/${data.ip}/json/`);
             const userInfo = await userData.json();
 
-            const userTimezone  = new Date().toLocaleString("en-US", { timeZone: userInfo.timezone });
-
-            console.log("userTimezone===", userTimezone);
+            const userTimezone = new Date().toLocaleString("en-US", { timeZone: userInfo.timezone });
 
             if (userInfo.latitude && userInfo.longitude) {
               userLocation = userInfo;
-              console.log("user location info: ", userInfo);
 
-              const mapLocation = document.querySelector("iframe"); // Get the first iframe
+              const mapLocation = document.querySelector("iframe");
               const mapSrc = `https://maps.google.com/maps?q=${userInfo.latitude},${userInfo.longitude}&&output=embed`;
               mapLocation.src = mapSrc;
+
+              const postOffices = await fetch(`https://api.postalpincode.in/pincode/${userInfo.postal}`);
+              const postOfficesData = await postOffices.json();
+
+              const postOfficesContents = document.getElementsByClassName("contents")[0];
+
+              for (const office of postOfficesData[0].PostOffice) {
+                const content = document.createElement("div");
+                content.classList.add("content");
+
+                const contentData = document.createElement("div");
+                contentData.classList.add("content-data");
+
+                const contentLabelforName = document.createElement("label");
+                const contentLabelforBranchType = document.createElement("label");
+                const contentLabelforDeliveryStatus = document.createElement("label");
+                const contentLabelforDistrict = document.createElement("label");
+                const contentLabelforDivision = document.createElement("label");
+
+                contentLabelforName.htmlFor = "name";
+                contentLabelforBranchType.htmlFor = "branchType";
+                contentLabelforDeliveryStatus.htmlFor = "deliveryStatus";
+                contentLabelforDistrict.htmlFor = "district";
+                contentLabelforDivision.htmlFor = "division";
+
+                const inputforName = document.createElement("input");
+                const inputforBranchType = document.createElement("input");
+                const inputforDeliveryStatus = document.createElement("input");
+                const inputforDistrict = document.createElement("input");
+                const inputforDivision = document.createElement("input");
+
+                inputforName.type = "text";
+                inputforBranchType.type = "text";
+                inputforDeliveryStatus.type = "text";
+                inputforDistrict.type = "text";
+                inputforDivision.type = "text";
+
+                inputforName.name = "name";
+                inputforBranchType.name = "branchType";
+                inputforDeliveryStatus.name = "deliveryStatus";
+                inputforDistrict.name = "district";
+                inputforDivision.name = "division";
+
+                inputforName.id = "name";
+                inputforBranchType.id = "branchType";
+                inputforDeliveryStatus.id = "deliveryStatus";
+                inputforDistrict.id = "district";
+                inputforDivision.id = "division";
+
+                inputforName.value = office.Name;
+                inputforBranchType.value = office.BranchType;
+                inputforDeliveryStatus.value = office.DeliveryStatus;
+                inputforDistrict.value = office.District;
+                inputforDivision.value = office.Division;
+
+                // Append labels and inputs to contentData
+                contentLabelforName.appendChild(document.createTextNode("Name : "));
+                contentData.appendChild(contentLabelforName);
+                contentData.appendChild(inputforName);
+
+                contentLabelforBranchType.appendChild(document.createTextNode("Branch Type : "));
+                contentData.appendChild(contentLabelforBranchType);
+                contentData.appendChild(inputforBranchType);
+
+                contentLabelforDeliveryStatus.appendChild(document.createTextNode("Delivery Status : "));
+                contentData.appendChild(contentLabelforDeliveryStatus);
+                contentData.appendChild(inputforDeliveryStatus);
+
+                contentLabelforDistrict.appendChild(document.createTextNode("District : "));
+                contentData.appendChild(contentLabelforDistrict);
+                contentData.appendChild(inputforDistrict);
+
+                contentLabelforDivision.appendChild(document.createTextNode("Division : "));
+                contentData.appendChild(contentLabelforDivision);
+                contentData.appendChild(inputforDivision);
+
+                // Append contentData to content
+                content.appendChild(contentData);
+
+                // Append content to the contents element
+                postOfficesContents.appendChild(content);
+              }
 
               // Update latitude and longitude inputs
               const latInput = document.getElementById("lat");
@@ -151,8 +229,6 @@
               const dateAndTime = document.getElementById("dateAndTime");
               const pincode = document.getElementById("pincode");
               const message = document.getElementById("message");
-
-              
 
               const organisation = document.getElementById("organisation");
               const hostname = document.getElementById("hostname");
@@ -167,10 +243,7 @@
               pincode.value = userInfo.postal;
               message.value = userInfo.message;
 
-
-
               const showUserIP = document.getElementById("showUserIP");
-              console.log("showUserIP===", showUserIP);
               showUserIP.innerText = "IP Address: " + data.ip;
             } else {
               console.log("Missing location information");
