@@ -84,7 +84,7 @@
       <h1>Post Offices Near You</h1>
       <div class="search">
         <span class="material-symbols-outlined"> search </span>
-        <input type="text" class="search-input" name="" id="" placeholder="Search..." />
+        <input type="text" class="search-input" name="" id="postOfficeSearch" placeholder="Search..." />
       </div>
 
       <div class="contents">
@@ -118,11 +118,11 @@
 
     <script>
       let userLocation = {};
+      const postOfficesContents = document.getElementsByClassName("contents")[0];
 
       const getUserLocationInfo = async () => {
         try {
-          var url = "https://api.ipify.org?format=json";
-          const response = await fetch(url);
+          const response = await fetch("https://api.ipify.org?format=json");
           const data = await response.json();
 
           if (data.ip) {
@@ -141,85 +141,22 @@
               const postOffices = await fetch(`https://api.postalpincode.in/pincode/${userInfo.postal}`);
               const postOfficesData = await postOffices.json();
 
-              const postOfficesContents = document.getElementsByClassName("contents")[0];
+              const postOfficeSearch = document.getElementById("postOfficeSearch");
 
-              for (const office of postOfficesData[0].PostOffice) {
-                const content = document.createElement("div");
-                content.classList.add("content");
+              //INITIALLY PRINT ALL THE DATA
+              displayData(postOfficesData[0].PostOffice);
 
-                const contentData = document.createElement("div");
-                contentData.classList.add("content-data");
+              //ON KEY UP WE ARE FILTERING THE DATA
+              postOfficeSearch.addEventListener("keyup", (e) => {
+                postOfficesContents.innerHTML = "";
+                const searchTerm = postOfficeSearch.value.toLowerCase();
 
-                const contentLabelforName = document.createElement("label");
-                const contentLabelforBranchType = document.createElement("label");
-                const contentLabelforDeliveryStatus = document.createElement("label");
-                const contentLabelforDistrict = document.createElement("label");
-                const contentLabelforDivision = document.createElement("label");
+                const finalData = postOfficesData[0].PostOffice.filter((item) => {
+                  return item.Name.toLowerCase().includes(searchTerm) || item.BranchType.toLowerCase().includes(searchTerm) || item.Division.toLowerCase().includes(searchTerm);
+                });
 
-                contentLabelforName.htmlFor = "name";
-                contentLabelforBranchType.htmlFor = "branchType";
-                contentLabelforDeliveryStatus.htmlFor = "deliveryStatus";
-                contentLabelforDistrict.htmlFor = "district";
-                contentLabelforDivision.htmlFor = "division";
-
-                const inputforName = document.createElement("input");
-                const inputforBranchType = document.createElement("input");
-                const inputforDeliveryStatus = document.createElement("input");
-                const inputforDistrict = document.createElement("input");
-                const inputforDivision = document.createElement("input");
-
-                inputforName.type = "text";
-                inputforBranchType.type = "text";
-                inputforDeliveryStatus.type = "text";
-                inputforDistrict.type = "text";
-                inputforDivision.type = "text";
-
-                inputforName.name = "name";
-                inputforBranchType.name = "branchType";
-                inputforDeliveryStatus.name = "deliveryStatus";
-                inputforDistrict.name = "district";
-                inputforDivision.name = "division";
-
-                inputforName.id = "name";
-                inputforBranchType.id = "branchType";
-                inputforDeliveryStatus.id = "deliveryStatus";
-                inputforDistrict.id = "district";
-                inputforDivision.id = "division";
-
-                inputforName.value = office.Name;
-                inputforBranchType.value = office.BranchType;
-                inputforDeliveryStatus.value = office.DeliveryStatus;
-                inputforDistrict.value = office.District;
-                inputforDivision.value = office.Division;
-
-                // Append labels and inputs to contentData
-                contentLabelforName.appendChild(document.createTextNode("Name : "));
-                contentData.appendChild(contentLabelforName);
-                contentData.appendChild(inputforName);
-
-                contentLabelforBranchType.appendChild(document.createTextNode("Branch Type : "));
-                contentData.appendChild(contentLabelforBranchType);
-                contentData.appendChild(inputforBranchType);
-
-                contentLabelforDeliveryStatus.appendChild(document.createTextNode("Delivery Status : "));
-                contentData.appendChild(contentLabelforDeliveryStatus);
-                contentData.appendChild(inputforDeliveryStatus);
-
-                contentLabelforDistrict.appendChild(document.createTextNode("District : "));
-                contentData.appendChild(contentLabelforDistrict);
-                contentData.appendChild(inputforDistrict);
-
-                contentLabelforDivision.appendChild(document.createTextNode("Division : "));
-                contentData.appendChild(contentLabelforDivision);
-                contentData.appendChild(inputforDivision);
-
-                // Append contentData to content
-                content.appendChild(contentData);
-
-                // Append content to the contents element
-                postOfficesContents.appendChild(content);
-              }
-
+                displayData(finalData);
+              });
               // Update latitude and longitude inputs
               const latInput = document.getElementById("lat");
               const longInput = document.getElementById("long");
@@ -255,6 +192,85 @@
       };
 
       // Call the function to get user location information
+
+      const displayData = async (data) => {
+        for (const office of data) {
+          const content = document.createElement("div");
+          content.classList.add("content");
+
+          const contentData = document.createElement("div");
+          contentData.classList.add("content-data");
+
+          const contentLabelforName = document.createElement("label");
+          const contentLabelforBranchType = document.createElement("label");
+          const contentLabelforDeliveryStatus = document.createElement("label");
+          const contentLabelforDistrict = document.createElement("label");
+          const contentLabelforDivision = document.createElement("label");
+
+          contentLabelforName.htmlFor = "name";
+          contentLabelforBranchType.htmlFor = "branchType";
+          contentLabelforDeliveryStatus.htmlFor = "deliveryStatus";
+          contentLabelforDistrict.htmlFor = "district";
+          contentLabelforDivision.htmlFor = "division";
+
+          const inputforName = document.createElement("input");
+          const inputforBranchType = document.createElement("input");
+          const inputforDeliveryStatus = document.createElement("input");
+          const inputforDistrict = document.createElement("input");
+          const inputforDivision = document.createElement("input");
+
+          inputforName.type = "text";
+          inputforBranchType.type = "text";
+          inputforDeliveryStatus.type = "text";
+          inputforDistrict.type = "text";
+          inputforDivision.type = "text";
+
+          inputforName.name = "name";
+          inputforBranchType.name = "branchType";
+          inputforDeliveryStatus.name = "deliveryStatus";
+          inputforDistrict.name = "district";
+          inputforDivision.name = "division";
+
+          inputforName.id = "name";
+          inputforBranchType.id = "branchType";
+          inputforDeliveryStatus.id = "deliveryStatus";
+          inputforDistrict.id = "district";
+          inputforDivision.id = "division";
+
+          inputforName.value = office.Name;
+          inputforBranchType.value = office.BranchType;
+          inputforDeliveryStatus.value = office.DeliveryStatus;
+          inputforDistrict.value = office.District;
+          inputforDivision.value = office.Division;
+
+          // Append labels and inputs to contentData
+          contentLabelforName.appendChild(document.createTextNode("Name : "));
+          contentData.appendChild(contentLabelforName);
+          contentData.appendChild(inputforName);
+
+          contentLabelforBranchType.appendChild(document.createTextNode("Branch Type : "));
+          contentData.appendChild(contentLabelforBranchType);
+          contentData.appendChild(inputforBranchType);
+
+          contentLabelforDeliveryStatus.appendChild(document.createTextNode("Delivery Status : "));
+          contentData.appendChild(contentLabelforDeliveryStatus);
+          contentData.appendChild(inputforDeliveryStatus);
+
+          contentLabelforDistrict.appendChild(document.createTextNode("District : "));
+          contentData.appendChild(contentLabelforDistrict);
+          contentData.appendChild(inputforDistrict);
+
+          contentLabelforDivision.appendChild(document.createTextNode("Division : "));
+          contentData.appendChild(contentLabelforDivision);
+          contentData.appendChild(inputforDivision);
+
+          // Append contentData to content
+          content.appendChild(contentData);
+
+          // Append content to the contents element
+          postOfficesContents.appendChild(content);
+        }
+      };
       getUserLocationInfo();
     </script>
   </body>
